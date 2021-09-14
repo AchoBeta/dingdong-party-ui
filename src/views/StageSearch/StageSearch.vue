@@ -18,11 +18,11 @@
           </el-form-item>
           <el-form-item label="任务">
             <el-select placeholder="选择任务" v-model="selectedTask">
-              <el-option 
+              <!-- <el-option 
               v-for="item in searchFormData['data'][selectedStageIndex].task" 
               :key="item.id" 
               :label="item.name" 
-              :value="item.id"></el-option>
+              :value="item.id"></el-option> -->
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -182,6 +182,7 @@
 
         </el-form> 
       </el-dialog>
+      
       <!-- 分页组件 -->
       <el-pagination
         background

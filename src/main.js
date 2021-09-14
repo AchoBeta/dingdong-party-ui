@@ -8,9 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/global.css'
 //引入form-create 快速生成表单
 import formCreate from '@form-create/element-ui'
+import http from './network/request'
 Vue.use(formCreate)
 
 Vue.use(ElementUI);
+Vue.use(http);
 
 Vue.config.productionTip = false
 

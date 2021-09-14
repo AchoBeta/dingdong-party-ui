@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import {request} from '../network/request'
+// import {request} from '../network/request'
+import {request} from "../network/request";
 import eCharts from "echarts"
   export default {
     name: "Console",
@@ -62,15 +63,16 @@ import eCharts from "echarts"
       getInformation(){
         const that = this
         request({
-          url: 'console/count'
+          url: '/base/others/count'
         }).then(res => {
           const data = res.data
           let temp = []
-          data.map((v,k)=>{
+          data.items.map((v,k)=>{
             let obj = {name:v.name,value:v.total}
+             console.log(obj)
             if(k!=5)
               temp.push(obj)
-              that.informationData = temp
+              that.informationData = temp      
           })
           that.drawGraph("#pie-area","pie")
         }).catch(err=>{

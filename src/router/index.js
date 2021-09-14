@@ -8,6 +8,8 @@ const stageSearch = () => import('../views/StageSearch/StageSearch')
 const stageManager = () => import('../views/StageManager/StageManager')
 const console = () => import('../views/Console')
 const login = () => import('../views/Login/Login')
+const conducterList =  () => import('../views/conducterList')
+
 
 const routes = [
   {
@@ -17,7 +19,7 @@ const routes = [
   {
     path: '/home',
     component: Home,
-    redirect: '/home/stageSearch',
+    redirect: '/home/console',
     children: [
         {
           path: 'stageSearch',
@@ -29,6 +31,28 @@ const routes = [
         {
           path: 'stageManager',
           component: stageManager
+        },
+       {
+          path: 'conducterList',
+          component: conducterList
+        },
+        //user模块
+        {
+          path: 'userModule/user',
+          component: () => import('../views/UserModule/User')
+        },
+        //activity
+        {
+          path: 'activityModule/activityCreate',
+          component: () => import('../views/ActivityModule/ActivityCreate')
+        },
+        {
+          path: 'activityModule/activityList',
+          component: () => import('../views/ActivityModule/ActivityList')
+        },
+        {
+            path: 'activityModule/activityLeaveApplication',
+            component: () => import('../views/ActivityModule/ActivityLeaveApplication')
         }
     ]
   },

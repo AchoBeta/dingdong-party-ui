@@ -3,7 +3,7 @@
     <el-aside :width="isCollapse?'64px':'200px'">
       <el-menu
           :router="true"
-          :collapse="isCollapse"
+          :collapse="isCollapse" 
           background-color="#20222A"
           text-color="#fff"
           :default-active="$route.path"
@@ -11,7 +11,7 @@
           active-text-color="#ffd04b">
         <div id="title">党建君-叮咚党建</div>
         <el-submenu index="1">
-          <template slot="title">
+            <template slot="title">
             <i class="el-icon-s-home"></i>
             <span>主页</span>
           </template>
@@ -19,9 +19,46 @@
             <i class="el-icon-s-data"></i>
             <span>控制台</span>
           </el-menu-item>
-          <el-menu-item index="/home/stageSearch">
+          
+        </el-submenu>
+        <el-submenu index="2" >
+          <template slot="title">
+            <i class="el-icon-user-solid"></i>
+            <span>管理模块</span>
+          </template>
+          <el-menu-item index="/home/conducterList">
+            <i class="el-icon-menu"></i>
+            <span>管理员列表</span>
+          </el-menu-item>
+        </el-submenu>
+        <!--   用户模块布局     -->
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-s-custom"></i>
+            <span>用户模块</span>
+          </template>
+          <el-menu-item index="/home/userModule/user">
             <i class="el-icon-search"></i>
-            <span>阶段查询</span>
+            <span>用户管理</span>
+          </el-menu-item>
+        </el-submenu>
+<!--   活动模块布局     -->
+        <el-submenu index="4">
+          <template slot="title">
+            <i class="el-icon-s-flag"></i>
+            <span>活动模块</span>
+          </template>
+          <el-menu-item index="/home/activityModule/activityCreate">
+            <i class="el-icon-eleme"></i>
+            <span>创建活动</span>
+          </el-menu-item>
+          <el-menu-item index="/home/activityModule/activityList">
+            <i class="el-icon-s-data"></i>
+            <span>活动列表</span>
+          </el-menu-item>
+          <el-menu-item index="/home/activityModule/activityLeaveApplication">
+            <i class="el-icon-s-data"></i>
+            <span>请假申请</span>
           </el-menu-item>
         </el-submenu>
         <el-menu-item index="/home/stageManager">
@@ -40,6 +77,8 @@
                 管理员<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown" >
+                <el-dropdown-item><span @click="pChange" >修改密码</span></el-dropdown-item>
+                <el-dropdown-item><span @click="aboutMessage">关于本人</span></el-dropdown-item>
                 <el-dropdown-item><span @click="logout">退出</span></el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -54,20 +93,29 @@
       </el-header>
       <el-main>
         <router-view></router-view>
+     
       </el-main>
     </el-container>
+    <pEditDialog v-if="pEditDialogVisible" :visible="pEditDialogVisible" @close-dialog="onClosePEditDialog" />
+    <aboutDialog v-if="aboutDialogVisible" :visible="aboutDialogVisible" @close-dialog="onCloseAboutDialog" />
   </el-container>
 </template>
 
 <script>
 import {logoutRequest} from '../network/request'
+import pEditDialog from './compoents/pEditDialog.vue';
+import aboutDialog from './compoents/aboutDialog.vue';
+
   export default {
     name: "Home",
     data(){
       return {
-        isCollapse: false   //是否折叠菜单
+        isCollapse: false,   //是否折叠菜单
+        pEditDialogVisible: false,
+        aboutDialogVisible: false
       }
     },
+    components: { pEditDialog, aboutDialog },
     methods: {
       //折叠菜单方法
       closeMenu(){
@@ -77,12 +125,16 @@ import {logoutRequest} from '../network/request'
       logout(){
         logoutRequest({
           method: 'post',
-          url: 'common/token/logout'
+          url: '/backstage/logout'
         }).then(res => {
-          
+          console.log(res);
           // 提示成功退出并跳转
           this.$store.state.token = "";
-          window.sessionStorage.removeItem("Authorization");
+          window.sessionStorage.removeItem("token");
+          window.sessionStorage.removeItem("groupId")
+          window.sessionStorage.removeItem("userId")
+          window.sessionStorage.removeItem("adminId")
+          window.sessionStorage.removeItem("name")
           this.$message({
             message: '退出成功',
             type: 'success',
@@ -90,9 +142,25 @@ import {logoutRequest} from '../network/request'
             onClose: () => {this.$router.push('/login')}
           })
         })
+      },
+      // 修改密码
+      pChange() {
+        this.pEditDialogVisible = true;
+      },
+      // 关于本人
+      aboutMessage() {
+        this.aboutDialogVisible = true;
+      },
+      // 关闭修改密码弹窗
+      onClosePEditDialog() {
+        this.pEditDialogVisible = false;
+      },
+      // 关闭关于本人弹窗
+      onCloseAboutDialog() {
+        this.aboutDialogVisible = false;
       }
-    }
-    ,mounted() {
+    },
+    mounted() {
       
     }
   }
