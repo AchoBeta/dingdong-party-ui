@@ -26,7 +26,7 @@
             <i class="el-icon-user-solid"></i>
             <span>管理模块</span>
           </template>
-          <el-menu-item index="/home/conductorList">
+          <el-menu-item index="/home/admin">
             <i class="el-icon-menu"></i>
             <span>管理员列表</span>
           </el-menu-item>
@@ -119,7 +119,6 @@
 </template>
 
 <script>
-import { logoutRequest } from "../network/request";
 import pEditDialog from "../components/Other/pEditDialog.vue";
 import aboutDialog from "../components/Other/aboutDialog.vue";
 

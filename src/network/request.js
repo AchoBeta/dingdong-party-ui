@@ -176,6 +176,7 @@ function createHttp(options) {
       return Promise.resolve(res.data);
     },
     (error) => {
+      console.log(error);
       const res = error.response;
       if (res && res.status === 401) {
         router.push("/login");

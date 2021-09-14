@@ -22,19 +22,19 @@ const routes = [
     redirect: "/home/console",
     children: [
       {
-        path: "stageSearch",
-        component: StageSearch,
-      },
-      {
         path: "console",
         component: Console,
+      },
+      {
+        path: "stageSearch",
+        component: StageSearch,
       },
       {
         path: "stageManager",
         component: stageManager,
       },
       {
-        path: "conductorList",
+        path: "admin",
         component: ConductorList,
       },
       //user模块

@@ -590,14 +590,14 @@ export default {
       //我改了一下
       this.$get({
         url: "/base/users",
-        data: {
+        params: {
           size: this.limit,
           page: this.page,
         },
       })
         .then((res) => {
-          console.log("我进来了");
-          console.log(res);
+          // console.log("我进来了");
+          // console.log(res);
           this.tableData = res.data.list.items;
           this.total = res.data.list.total;
         })
@@ -622,7 +622,7 @@ export default {
           //带数据进去;
           if (this.formInfo.gender != null) {
             this.formInfo.gender2 = this.formInfo.gender ? "男" : "女";
-          } //把男女表式出来
+          } //把男女表示出来
           this.formInfo.lastInfo = row; //把前面的数据丢进表单
 
           console.log(this.formInfo); //打印出来看一下
@@ -668,7 +668,7 @@ export default {
         },
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.detailDialog = false;
         })
         .catch((err) => {
@@ -696,9 +696,9 @@ export default {
         },
       })
         .then((res) => {
-          console.log(this.textarea);
+          // console.log(this.textarea);
           this.textarea = "";
-          console.log(res);
+          // console.log(res);
           this.detailDialog = false;
           this.changeShow(); //还原一下
         })
@@ -738,7 +738,7 @@ export default {
         data: this.demoTest,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (!res.success) {
             this.$message({
               message: "设为管理员失败",
@@ -791,7 +791,7 @@ export default {
           },
         })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             this.list1 = res.data.list.items;
           })
           .catch((err) => {
@@ -808,7 +808,7 @@ export default {
         url: "/base/stages",
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.list2 = res.data.items;
         })
         .catch((err) => {
@@ -824,7 +824,7 @@ export default {
         url: "/base/others/max-periods",
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.periodMaxNum = res.data.num;
         })
         .catch((err) => {
@@ -841,7 +841,7 @@ export default {
         url: "/backstage/institutes",
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.listInstitute = res.data.list;
         })
         .catch((err) => {
@@ -853,13 +853,13 @@ export default {
         });
     },
     loadMajor(instituteId, instituteName) {
-      console.log(instituteName, instituteId);
+      // console.log(instituteName, instituteId);
       this.searchFormData.institute = instituteName; //放数据到列表中
       this.$get({
         url: "/backstage/institutes/" + instituteId + "/major",
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.listMajor = res.data.list;
         })
         .catch((err) => {
@@ -875,9 +875,9 @@ export default {
         url: "/base/others/max-grade",
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.gradeMaxNum = res.data.num;
-          console.log(this.gradeMaxNum, "年级年级");
+          // console.log(this.gradeMaxNum, "年级年级");
         })
         .catch((err) => {
           this.$message({
