@@ -226,6 +226,7 @@ export function userRequest(config) {
         }
       })
     }
+    config.contentType = "application/x-www-form-urlencoded";
   });
 
   //3.axios响应拦截

@@ -2,13 +2,12 @@
   <div>
     <el-card class="box-card">
       <!-- 卡片头 -->
-     <div>
-       <!--  style="margin-left: 18%;" -->
+     <div style="margin-left: 18%;">
        <div slot="header" class="card_header">
-         <el-form  :inline="true" :model="searchFormData">
+         <el-form :inline="true" :model="searchFormData">
            <div>
-             <el-form-item label="支部">  
-               <el-select v-model="value[0]" clearable placeholder="选择所在党支部"  >
+             <el-form-item label="支部">
+               <el-select v-model="value[0]" clearable placeholder="选择所在支部"  >
                  <el-option
                      v-for="item in list1"
                      :key="item.id"
@@ -19,7 +18,7 @@
                </el-select>
              </el-form-item>
              <el-form-item label="阶段">
-               <el-select placeholder="选择所在发展阶段" clearable v-model="value[1]">
+               <el-select placeholder="选择所在阶段" clearable v-model="value[1]">
                  <el-option
                      v-for="item in list2"
                      :key="item.id"
@@ -29,8 +28,8 @@
                  </el-option>
                </el-select>
              </el-form-item>
-             <el-form-item label="批次">
-               <el-input v-model="searchFormData.periodsNum" :placeholder="'输入批次,范围[1,'+periodMaxNum+']'"></el-input>
+             <el-form-item label="期数">
+               <el-input v-model="searchFormData.periodsNum" :placeholder="'输入期数,范围(0,'+periodMaxNum+']'"></el-input>
              </el-form-item>
            </div>
            <div>
@@ -52,7 +51,7 @@
                      :key="item.id"
                      :label="item.name"
                      :value="item.id"
-                     @click.native="searchFormData.major = item.name">
+                     @click.native="searchFormData.major">
                  </el-option>
                </el-select>
              </el-form-item>
@@ -60,20 +59,9 @@
                <el-input v-model="searchFormData.grade" :placeholder="'输入年级,范围['+(gradeMaxNum-3)+','+gradeMaxNum+']'"></el-input>
              </el-form-item>
            </div>
-           <div>
-             <el-form-item label="状态">
-               <el-select v-model="value[6]" clearable placeholder="选择用户身份状态">
-                 <el-option
-                     v-for="item in list1"
-                     :key="item.id"
-                     :label="item.name"
-                     :value="item.id"
-                     @click.native="searchFormData.groupId = item.id">
-                 </el-option>
-               </el-select>
-             </el-form-item>
-             <el-form-item style="margin-left: 10px">
-               <el-button size="small" type="primary" @click="beginSearch">查询</el-button>
+           <div style="margin-left: 29%">
+             <el-form-item>
+               <el-button type="primary" @click="beginSearch">搜索</el-button>
              </el-form-item>
            </div>
          </el-form>
@@ -82,14 +70,13 @@
       <!-- 卡片内容 -->
       <el-table :data="tableData" style="width: 100%">
         <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="所在党支部" prop="groupName"></el-table-column>
-        <el-table-column label="所在阶段" prop="stageName"></el-table-column>
-        <el-table-column label="所在批次" prop="'第'+groupName+'批'"></el-table-column>
+        <el-table-column label="所在支部" prop="branchName"></el-table-column>
+        <el-table-column label="所在小组" prop="groupName"></el-table-column>
         <el-table-column label="所在学院" prop="institute"></el-table-column>
         <el-table-column label="年级" prop="grade"></el-table-column>
         <el-table-column label="专业" prop="major"></el-table-column>
         <el-table-column label="参与活动数" prop="activity" sortable></el-table-column>
-        <el-table-column label="身份验证">
+        <el-table-column label="审核状态">
           <template slot-scope="scope">
             <el-tag type="danger" v-if="scope.row.status == 0">未通过</el-tag>
             <el-tag type="success" v-if="scope.row.status != 0">已通过</el-tag>
@@ -97,7 +84,7 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right">
           <template slot-scope="scope">
-            <el-button style="text-align: center;margin-bottom: 10px" type="primary" size="mini" @click='SearchAllMsg(scope.row)'>编辑详情</el-button>
+            <el-button style="text-align: center;margin-bottom: 10px" type="primary" size="mini" @click='SearchAllMsg(scope.row)'>详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -339,7 +326,7 @@
   </div>
 </template>
 <script>
-import {request, userRequest} from "../../network/request";
+import {userRequest} from "../../network/request";
 import {userRequest2} from "../../network/request";
 export default {
   name: "User",
@@ -445,30 +432,6 @@ export default {
         console.log("我进来了")
         console.log(res)
         this.tableData = res.data.list.items;
-        //获取阶段
-        this.tableData.forEach(item => {
-          if (item.stageId!=null) {
-            if (item.stageId === 1){
-              item.stageName = "入党申请人"
-            }else if (item.stageId === 2) {
-              item.stageName = "入党积极分子"
-            }else if (item.stageId === 3) {
-              item.stageName = "发展对象"
-            }else if (item.stageId === 4) {
-              item.stageName = "预备党员"
-            }else if (item.stageId === 5){
-              item.stageName = "正式党员"
-            }else {
-              item.stageName = "党员"
-            }
-          }
-          // request({
-          //   url: '/base/stages/'+item.stageId
-          // }).then(res => {
-          //   console.log("获取阶段数据")
-          //   item.stageName = res.data.item.name
-          // })
-        })
         this.total = res.data.list.total;
       }).catch(err =>{
         this.tableData = []
@@ -650,7 +613,7 @@ export default {
         }).catch(err => {
           this.$message({
             message: '获取数据失败',
-            type: 'error',  
+            type: 'error',
             duration: 1500
           })
         })

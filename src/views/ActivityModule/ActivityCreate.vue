@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card shadow="hover">
-      <div style="width: 600px;margin-left: 25%">
+      <div style="width: 500px;margin-left: 10px">
         <el-form  :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
           <el-form-item label="选择党小组" v-if="groupId==null">
             <el-select v-model="groupVal[0]" placeholder="请选择授权党小组">
@@ -53,7 +53,6 @@
             <el-input placeholder="请输入公告链接" v-model="formLabelAlign.announcement" clearable></el-input>
           </el-form-item>
           <el-form-item style="text-align: center">
-            <el-button type="primary" style="margin-left: 10px">保存草稿</el-button>
             <el-button type="primary" @click="submitForm">立即创建</el-button>
           </el-form-item>
         </el-form>
