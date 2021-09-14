@@ -48,7 +48,8 @@ export default {
   data() {
     return {
       animate: true,
-      imgurl: "https://api.dingdongtongxue.com/backstage/image-code",
+      imgurl:
+        "https://api.dingdongtongxue.com/dingdong-party/backstage/image-code",
       formData: {
         username: "",
         password: "",
@@ -61,10 +62,10 @@ export default {
   },
   methods: {
     login() {
-      return this.$post({
+      this.$post({
         url: "/backstage/login",
         params: this.formData,
-      }).then((data) => {
+      }).then(({ data }) => {
         //保存token到vuex
         // console.log(data);
         this.$store.state.token = data.token;

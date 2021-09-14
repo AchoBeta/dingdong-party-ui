@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     tokenName: "Authorization",
     token: "",
+    userId: "",
     adminId: "",
     // baseURL: 'https://www.dingdongtongxue.com/Party/party/v1/' //服务器接口路径
     // baseURL: 'https://www.dingdongtongxue.com/api'
