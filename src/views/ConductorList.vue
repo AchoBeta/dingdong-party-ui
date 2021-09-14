@@ -139,15 +139,13 @@
 </template>
 
 <script>
-import { userRequest } from "../network/request";
-
 export default {
   data() {
     return {
       managerDetailVisible: false,
       managerData: [],
-      stuName: '',
-      stuId: '201944101218',
+      stuName: "",
+      stuId: "201944101218",
       gridData: [],
       loading: false,
       adminId: "",
@@ -171,8 +169,8 @@ export default {
   methods: {
     // 获取支部选项
     async getBranchOptions() {
-      let res = await userRequest({
-        url: "/dingdong-party/base/branches",
+      let res = await this.$get({
+        url: "/base/branches",
         params: {
           page: this.pageNo,
           size: this.pageSize,
@@ -190,8 +188,8 @@ export default {
     },
     // 获取党组选项
     async getGroupOptions() {
-      let res = await userRequest({
-        url: "/dingdong-party/base/branch/" + this.form.branchId + "/groups",
+      let res = await this.$get({
+        url: "/base/branch/" + this.form.branchId + "/groups",
         params: {
           branchId: this.form.branchId,
           page: this.pageNo,
@@ -210,8 +208,8 @@ export default {
     },
     // 获取列表
     async getList() {
-      let res = await userRequest({
-        url: "/dingdong-party/backstage/admins",
+      let res = await this.$get({
+        url: "/backstage/admins",
         params: {
           page: this.pageNo,
           size: this.pageSize,
@@ -246,16 +244,12 @@ export default {
       this.managerDetailVisible = true;
     },
     async Search() {
-      let res = userRequest({
+      let res = this.$get({
         url: "/base/students/201944101218",
-        params: {}
+        params: {},
       });
       console.warn(res);
     },
-
-   
-    
-    
 
     // * 换页或者显示函数
     changePageNo(pageNo) {
@@ -267,70 +261,58 @@ export default {
       this.getList();
     },
 
+    //  async Search() {
+    //       let res = await this.$get({
+    //         url: "/base/users",
+    //         params: {
+    //           size: 6,
+    //           page: 1,
+    //         },
+    //       });
+    //       if (res.code != 200) {
+    //         return this.$message({
+    //           message: "获取用户数据失败",
+    //           type: "error",
+    //           duration: 1500,
+    //         });
+    //       }
+    //       this.managerData = res.data.list.items;
+    //       // console.log(this.managerData);
 
+    //      this.searchStage();
+    //      this.managerData.forEach(items => {
+    //        this.searchStu(items);
+    //        })
 
-
-
-
-
-//  async Search() {
-//       let res = await userRequest({
-//         url: "/dingdong-party/base/users",
-//         params: {
-//           size: 6,
-//           page: 1,
-//         },
-//       });
-//       if (res.code != 200) {
-//         return this.$message({
-//           message: "获取用户数据失败",
-//           type: "error",
-//           duration: 1500,
-//         });
-//       }
-//       this.managerData = res.data.list.items;
-//       // console.log(this.managerData);
-
-//      this.searchStage();
-//      this.managerData.forEach(items => {
-//        this.searchStu(items);
-//        })
-     
-      
-//     },
-//     // * 获取所在阶段
-//     async searchStage() {
-//       let res = await userRequest({
-//         url: "/dingdong-party/base/stages/"
-//       });
-//        if (res.code != 200) {
-//         return this.$message({
-//           message: "获取用户数据失败",
-//           type: "error",
-//           duration: 1500,
-//         });
-//       }
-//       let stage = res.data.items;
-//       // console.log(stage);
-//       this.managerData.forEach((element) => {
-//         if (element.stageId) {
-//           element.stage = stage[element.stageId - 1].name;
-//           //  console.log(element.stageId);
-//         }
-//       });   
-//     },
-//     async searchStu(data) {
-//       let res = await userRequest({
-//         url: `/base/students/${data.studentId}`
-//       })
-//       console.log(res);
-//       console.log(1);
-//     },
-
-
-
-
-
+    //     },
+    //     // * 获取所在阶段
+    //     async searchStage() {
+    //       let res = await this.$get({
+    //         url: "/base/stages/"
+    //       });
+    //        if (res.code != 200) {
+    //         return this.$message({
+    //           message: "获取用户数据失败",
+    //           type: "error",
+    //           duration: 1500,
+    //         });
+    //       }
+    //       let stage = res.data.items;
+    //       // console.log(stage);
+    //       this.managerData.forEach((element) => {
+    //         if (element.stageId) {
+    //           element.stage = stage[element.stageId - 1].name;
+    //           //  console.log(element.stageId);
+    //         }
+    //       });
+    //     },
+    //     async searchStu(data) {
+    //       let res = await this.$get({
+    //         url: `/base/students/${data.studentId}`
+    //       })
+    //       console.log(res);
+    //       console.log(1);
+    //     },
   },
 };
 </script>
@@ -373,4 +355,3 @@ export default {
   margin-left: 40px;
 }
 </style>
- 

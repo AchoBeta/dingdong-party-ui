@@ -18,21 +18,22 @@
             v-model="formData.password"
           ></el-input>
           <!-- 登录验证码实现 -->
-        </el-form-item >
-         <el-form-item class="allwidth">
-          <el-input 
-          class="vcwidth"
+        </el-form-item>
+        <el-form-item class="allwidth">
+          <el-input
+            class="vcwidth"
             type="text"
             placeholder="请输入图形验证码"
             v-model="formData.code"
           ></el-input>
           <el-image
-          id="captcha_img"
-           class="imgwidth"
-           @click="refresh" 
-           :src="imgurl" >
-         </el-image>
-        </el-form-item>      
+            id="captcha_img"
+            class="imgwidth"
+            @click="refresh"
+            :src="imgurl"
+          >
+          </el-image>
+        </el-form-item>
         <el-button type="primary" style="width: 100%" @click="login"
           >登录</el-button
         >
@@ -42,44 +43,40 @@
 </template>
 
 <script>
-
 export default {
   name: "Login",
   data() {
     return {
       animate: true,
-      imgurl:"https://api.dingdongtongxue.com/dingdong-party/backstage/image-code",
+      imgurl: "https://api.dingdongtongxue.com/backstage/image-code",
       formData: {
         username: "",
         password: "",
-        code:"",
+        code: "",
       },
-     
-
-
     };
   },
   created() {
-   sessionStorage.clear();
+    sessionStorage.clear();
   },
   methods: {
-    login() 
-      {return this.$post({
-        url: '/backstage/login',
-        params: this.formData
+    login() {
+      return this.$post({
+        url: "/backstage/login",
+        params: this.formData,
       }).then((data) => {
         //保存token到vuex
         // console.log(data);
         this.$store.state.token = data.token;
         this.$store.state.userId = data.items.userId;
-        this.$store.state.adminId =data.items.id;
-        window.sessionStorage.setItem('adminId', data.items.id);
-        window.sessionStorage.setItem('userId', data.items.userId);
-        window.sessionStorage.setItem('groupId',data.items.groupId);
-        window.sessionStorage.setItem('branchId',data.items.branchId)
-        window.sessionStorage.setItem('name',data.items.name)
-        window.sessionStorage.setItem('token', data.token);
-        window.sessionStorage.setItem('authority',data.items.authority)
+        this.$store.state.adminId = data.items.id;
+        window.sessionStorage.setItem("adminId", data.items.id);
+        window.sessionStorage.setItem("userId", data.items.userId);
+        window.sessionStorage.setItem("groupId", data.items.groupId);
+        window.sessionStorage.setItem("branchId", data.items.branchId);
+        window.sessionStorage.setItem("name", data.items.name);
+        window.sessionStorage.setItem("token", data.token);
+        window.sessionStorage.setItem("authority", data.items.authority);
         //提示成功登陆并跳转
         this.$message({
           message: "登陆成功",
@@ -89,14 +86,13 @@ export default {
             this.$router.push("/home");
           },
         });
-      })
+      });
     },
-     refresh() {
-            document.getElementById('captcha_img').src=this.imgurl;
-         }   
+    refresh() {
+      document.getElementById("captcha_img").src = this.imgurl;
+    },
   },
 };
- 
 </script>
 
 <style scoped>
@@ -114,9 +110,17 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.allwidth .imgwidth{width:180px; height: 40px;border-radius: 4px; float: right}
+.allwidth .imgwidth {
+  width: 180px;
+  height: 40px;
+  border-radius: 4px;
+  float: right;
+}
 
-.allwidth .vcwidth{width:200px;float: left}
+.allwidth .vcwidth {
+  width: 200px;
+  float: left;
+}
 
 .el-card {
   width: 450px;

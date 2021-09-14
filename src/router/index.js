@@ -1,69 +1,71 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const Home = () => import('../views/Home')
-const stageSearch = () => import('../views/StageSearch/StageSearch')
-const stageManager = () => import('../views/StageManager/StageManager')
-const console = () => import('../views/Console')
-const login = () => import('../views/Login/Login')
-const conducterList =  () => import('../views/conducterList')
+const Home = () => import("../views/Home");
+const Console = () => import("../views/Console");
+const Login = () => import("../views/Login");
+const ConductorList = () => import("../views/ConductorList");
 
+const StageSearch = () => import("../components/StageSearch/StageSearch");
+const stageManager = () => import("../components/StageManager/StageManager");
 
 const routes = [
   {
-    path: '/',
-    redirect: '/login'
+    path: "/",
+    redirect: "/login",
   },
   {
-    path: '/home',
+    path: "/home",
     component: Home,
-    redirect: '/home/console',
+    redirect: "/home/console",
     children: [
-        {
-          path: 'stageSearch',
-          component: stageSearch
-        },{
-          path: 'console',
-          component: console
-        },
-        {
-          path: 'stageManager',
-          component: stageManager
-        },
-       {
-          path: 'conducterList',
-          component: conducterList
-        },
-        //user模块
-        {
-          path: 'userModule/user',
-          component: () => import('../views/UserModule/User')
-        },
-        //activity
-        {
-          path: 'activityModule/activityCreate',
-          component: () => import('../views/ActivityModule/ActivityCreate')
-        },
-        {
-          path: 'activityModule/activityList',
-          component: () => import('../views/ActivityModule/ActivityList')
-        },
-        {
-            path: 'activityModule/activityLeaveApplication',
-            component: () => import('../views/ActivityModule/ActivityLeaveApplication')
-        }
-    ]
+      {
+        path: "stageSearch",
+        component: StageSearch,
+      },
+      {
+        path: "console",
+        component: Console,
+      },
+      {
+        path: "stageManager",
+        component: stageManager,
+      },
+      {
+        path: "conductorList",
+        component: ConductorList,
+      },
+      //user模块
+      {
+        path: "user",
+        component: () => import("../components/UserModule/User"),
+      },
+      //activity模块
+      {
+        path: "activity/activityCreate",
+        component: () => import("../components/ActivityModule/ActivityCreate"),
+      },
+      {
+        path: "activity/activityList",
+        component: () => import("../components/ActivityModule/ActivityList"),
+      },
+      {
+        path: "activity/activityLeaveApplication",
+        component: () =>
+          import("../components/ActivityModule/ActivityLeaveApplication"),
+      },
+    ],
   },
   {
-    path: '/login',
-    component: login
-  }
-]
+    path: "/login",
+    component: Login,
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
