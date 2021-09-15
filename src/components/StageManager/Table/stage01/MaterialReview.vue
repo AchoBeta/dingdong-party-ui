@@ -132,7 +132,6 @@
 </template>
 
 <script>
-import { request } from "../../../../network/request";
 export default {
   name: "MaterialReview",
   data() {
@@ -179,10 +178,9 @@ export default {
       this.reasonForNoPassForm.id = this.materialId;
       this.reasonForNoPassForm.state = 2;
       //处理只有不通过原因的表单
-      request({
+      this.$post({
         url: "taskAudit",
-        method: "post",
-        data: this.reasonForNoPassForm,
+        params: this.reasonForNoPassForm,
       })
         .then((res) => {
           console.log(res);
@@ -212,7 +210,7 @@ export default {
     //获取任务表格数据函数
     getTableData() {
       //请求任务表格数据
-      request({
+      this.$get({
         url: `task/${this.taskID}`,
         params: {
           limit: this.limit,
@@ -240,9 +238,8 @@ export default {
     //获取审核材料
     getMaterial(index, row) {
       this.row = row;
-      request({
+      this.$get({
         url: "taskDetail",
-        method: "get",
         params: {
           task_id: this.taskID,
           user_id: row.casid,
@@ -271,9 +268,8 @@ export default {
       let casid = this.row.casid; //获取学号
       let name = this.row.name; //获得姓名
       //材料审核接口
-      request({
+      this.$post({
         url: "taskAudit",
-        method: "post",
         data: {
           id: this.materialId,
           status: 1, //1为已审核
@@ -281,9 +277,8 @@ export default {
       })
         .then((res) => {
           //接上进入下一任务接口
-          request({
+          this.$put({
             url: "state/next_mission?casid=" + casid,
-            method: "put",
           })
             .then((res) => {
               this.getTableData(); //更新表格数据
@@ -314,9 +309,8 @@ export default {
     //重置进度（开发时测试使用）
     reset(index, row) {
       let casid = row.casid;
-      request({
+      this.$put({
         url: "state/resetState?casid=" + casid,
-        method: "put",
       })
         .then((res) => {
           this.getTableData();
@@ -358,10 +352,9 @@ export default {
         duration: 1500,
       });
       //上传完成后，设置该记录为不通过
-      request({
+      this.$post({
         url: "taskAudit",
-        method: "post",
-        data: {
+        params: {
           id: this.materialId,
           status: 2,
         },

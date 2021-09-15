@@ -1,5 +1,27 @@
 <template>
   <div>
+    <!-- 选择党委和党支部 -->
+    <div>
+      <el-card>
+        <div>
+          <!--
+          <div>
+            党委
+            <el-select v-model="" placeholder="无">
+              <el-option :label="" :value=""></el-option>
+            </el-select>
+          </div>
+          <div>
+            党支部
+            <el-select v-model="" placeholder="无">
+              <el-option :label="" :value=""></el-option>
+            </el-select>
+          </div>
+          -->
+        </div>
+      </el-card>
+    </div>
+    <!-- 党建数据 -->
     <div id="content-area">
       <el-card>
         <div slot="header" class="clearfix">
@@ -21,6 +43,7 @@
         </div>
       </el-card>
     </div>
+    <!-- 图表数据 -->
     <div id="eChart-area">
       <el-card>
         <div slot="header" class="clearfix">
@@ -153,6 +176,7 @@ export default {
 </script>
 
 <style scoped>
+#content-area,
 #eChart-area {
   margin-top: 3vh;
 }

@@ -11,7 +11,7 @@ export default new Vuex.Store({
     adminId: "",
     // baseURL: 'https://www.dingdongtongxue.com/Party/party/v1/' //服务器接口路径
     // baseURL: 'https://www.dingdongtongxue.com/api'
-    baseURL: "https://api.dingdongtongxue.com",
+    baseURL: "https://api.dingdongtongxue.com/dingdong-party",
   },
   mutations: {},
   actions: {},

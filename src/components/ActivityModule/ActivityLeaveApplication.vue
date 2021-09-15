@@ -182,8 +182,7 @@ export default {
     //同意
     agree(item) {
       console.log(item);
-      this.$get({
-        method: "POST",
+      this.$post({
         url: "/backstage/admins/partake-activity-success",
         params: {
           userId: item.userId, //'1427546569351131137',
@@ -218,8 +217,7 @@ export default {
     },
     //失败
     disagree(item) {
-      this.$get({
-        method: "POST",
+      this.$post({
         url: "/backstage/admins/partake-activity-fail",
         params: {
           userId: item.userId, //'1427546569351131137',

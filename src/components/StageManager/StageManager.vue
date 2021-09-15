@@ -10,7 +10,6 @@
 
 <script>
 const SecondTab = ()=>import('./SecondTab/SecondTab')
-import {request} from '../../network/request'
   export default {
     data() {
       return {
@@ -22,7 +21,7 @@ import {request} from '../../network/request'
     methods: {
       //获取标签列表
       getTags(){
-        request({
+        this.$get({
           url: 'stage'
         }).then(res => {
           this.tabData = res;

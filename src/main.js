@@ -1,23 +1,23 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 //引入element-ui
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import './assets/global.css'
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import "./assets/global.css";
 //引入form-create 快速生成表单
-import formCreate from '@form-create/element-ui'
-import http from './network/request'
-Vue.use(formCreate)
+import formCreate from "@form-create/element-ui";
+import http from "./network/request";
+Vue.use(formCreate);
 
 Vue.use(ElementUI);
 Vue.use(http);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");
