@@ -63,7 +63,11 @@ export default {
   },
   created() {
     const userId = this.$store.state.userId || sessionStorage.getItem('userId');
-    if (userId) this.getInfo(userId);
+    if (userId) {
+      this.getInfo(userId);
+    } else {
+      console.log("无效的 userId !!!")
+    }
   },
   methods: {
     // 关闭
@@ -76,10 +80,15 @@ export default {
       this.$get({
         url: `base/users/${userId}/info`
       }).then((res) => {
-        if (res.item) {
+        console.log(res.data.item)
+        if (res.data.item) {
           this.loading = false;
-          this.form ={ ...(res.item.main || {} ), ...(res.item.detail || {} ) };
+          this.form ={ ...(res.data.item.main || {} ), ...(res.data.item.detail || {} ) };
+        } else {
+          console.log("接收错误")
         }
+      }, e => {
+        console.log("获取用户信息失败！", e)
       })
     }
   },
