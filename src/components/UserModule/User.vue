@@ -111,20 +111,23 @@
       <!-- 卡片内容 -->
       <el-table :data="tableData" style="width: 100%">
         <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="所在支部" prop="branchName"></el-table-column>
-        <el-table-column label="所在小组" prop="groupName"></el-table-column>
+        <el-table-column label="身份">
+          <template slot-scope="identity">
+            <p v-if="identity.row.studentId">学生</p>
+            <p v-else>老师</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="所在党支部" prop="branchName"></el-table-column>
+        <el-table-column label="阶段" prop="stage"></el-table-column>
+        <el-table-column label="批次" prop="stageId"></el-table-column>
         <el-table-column label="所在学院" prop="institute"></el-table-column>
         <el-table-column label="年级" prop="grade"></el-table-column>
         <el-table-column label="专业" prop="major"></el-table-column>
-        <el-table-column
-          label="参与活动数"
-          prop="activity"
-          sortable
-        ></el-table-column>
         <el-table-column label="审核状态">
           <template slot-scope="scope">
-            <el-tag type="danger" v-if="scope.row.status == 0">未通过</el-tag>
-            <el-tag type="success" v-if="scope.row.status != 0">已通过</el-tag>
+            <el-tag type="danger" v-if="scope.row.status == 0">待审核</el-tag>
+            <el-tag type="success" v-if="scope.row.status == 1">已通过</el-tag>
+            <el-tag type="success" v-if="scope.row.status == 2">未通过</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right">
@@ -624,7 +627,7 @@ export default {
       })
         .then((res) => {
           // console.log("我进来了");
-          // console.log(res);
+          console.log(res);
           this.tableData = res.data.list.items;
           this.total = res.data.list.total;
         })
