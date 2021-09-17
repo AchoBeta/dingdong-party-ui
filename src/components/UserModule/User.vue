@@ -118,8 +118,8 @@
           </template>
         </el-table-column>
         <el-table-column label="所在党支部" prop="branchName"></el-table-column>
-        <el-table-column label="阶段" prop="stage"></el-table-column>
-        <el-table-column label="批次" prop="stageId"></el-table-column>
+        <el-table-column label="阶段" prop="stageId"></el-table-column>
+        <el-table-column label="批次" prop="stage"></el-table-column>
         <el-table-column label="所在学院" prop="institute"></el-table-column>
         <el-table-column label="年级" prop="grade"></el-table-column>
         <el-table-column label="专业" prop="major"></el-table-column>
