@@ -2,11 +2,11 @@
   <div class="conducter-list-wrapper">
     <div class="conducter-list-box">
       <el-form :inline="true" :model="form">
-        <el-form-item label="党支部">
+        <el-form-item label="党委">
           <el-select
             :loading="loading"
             @change="getGroupOptions"
-            placeholder="选择党支部"
+            placeholder="选择党委"
             v-model="form.branchId"
           >
             <el-option
@@ -17,10 +17,10 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="党组">
+        <el-form-item label="党支部">
           <el-select
             :loading="loading"
-            placeholder="选择党组"
+            placeholder="选择党支部"
             v-model="form.groupId"
           >
             <el-option

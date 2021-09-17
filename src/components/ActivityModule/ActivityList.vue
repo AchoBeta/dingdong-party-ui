@@ -2,10 +2,10 @@
   <div>
     <el-card class="box-card">
       <!-- 卡片头 -->
-      <div style="margin-left: 18%;">
+      <div style="box-top-contain">
         <div slot="header" class="card_header">
           <el-form :inline="true" :model="searchFormData">
-            <div>
+            <div class="box-top-contain-item">
               <el-form-item label="院党委">
                 <el-select v-model="value[0]" placeholder="选择所属院党委">
                   <el-option
@@ -41,8 +41,6 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-            </div>
-            <div>
               <el-form-item label="活动状态">
                 <el-select placeholder="选择活动状态" v-model="value[4]">
                   <el-option
@@ -72,12 +70,7 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
-                <el-button
-                  type="primary"
-                  @click="beginSearch"
-                  style="margin-left: 190px"
-                  >搜索</el-button
-                >
+                <el-button type="primary" @click="beginSearch">搜索</el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -85,6 +78,7 @@
       </div>
       <!-- 卡片内容 -->
       <el-table :data="tableData" style="width: 100%">
+        <el-table-column label="活动名称" prop="name"></el-table-column>
         <el-table-column label="创建人" prop="directorName"></el-table-column>
         <el-table-column label="院党委" prop="branchName"></el-table-column>
         <el-table-column label="党支部" prop="groupId"></el-table-column>
@@ -400,7 +394,7 @@ export default {
       //分页相关变量
       total: 0,
       page: 1,
-      size: 5,
+      size: 10,
       //详情分页插件1
       total2: 0,
       page2: 1,
@@ -428,7 +422,52 @@ export default {
     this.fillOptionBranch();
     this.beginSearch();
   },
+  // watch:{
+  //   tableData:{
+      
+  //     deep:true
+  //   }
+  // },
   methods: {
+    // 获取支部选项
+    async getBranchOptions() {
+      let res = await this.$get({
+        url: "/base/branches",
+        params: {
+          page: this.pageNo,
+          size: this.pageSize,
+        },
+      });
+      if (res.code != 200) {
+        return this.$message({
+          message: "获取用户数据失败",
+          type: "error",
+          duration: 1500,
+        });
+      }
+      this.branchOptions = res.data.list.items;
+      // console.log(this.branchOptions);
+    },
+    // 获取党组选项
+    async getGroupOptions() {
+      let res = await this.$get({
+        url: "/base/branch/" + this.form.branchId + "/groups",
+        params: {
+          branchId: this.form.branchId,
+          page: this.pageNo,
+          size: this.pageSize,
+        },
+      });
+      if (res.code != 200) {
+        return this.$message({
+          message: "获取用户数据失败",
+          type: "error",
+          duration: 1500,
+        });
+      }
+      this.groupOptions = res.data.list.items;
+      // console.log(this.groupOptions);
+    },
     //通过党支部的选择来获取党小组的选择
     getBranchTeam(id) {
       this.searchFormData.branchId = id; //把传进来的值放到对应位置
@@ -649,3 +688,28 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.box-top-contain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.box-top-contain-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0vw 15vw;
+  flex-wrap: wrap;
+}
+
+/deep/ .el-form-item {
+  margin-right: 3vw;
+}
+/deep/ .el-form-item__label {
+  width: 80px;
+  text-align: justify;
+  text-align-last: justify;
+}
+</style>

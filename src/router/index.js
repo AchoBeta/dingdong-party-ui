@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 const Home = () => import("../views/Home");
 const Console = () => import("../views/Console");
 const Login = () => import("../views/Login");
-const ConductorList = () => import("../views/ConductorList");
+const Admin = () => import("../views/Admin");
 
 const StageSearch = () => import("../components/StageSearch/StageSearch");
 const stageManager = () => import("../components/StageManager/StageManager");
@@ -35,7 +35,7 @@ const routes = [
       },
       {
         path: "admin",
-        component: ConductorList,
+        component: Admin,
       },
       //user模块
       {

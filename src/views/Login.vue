@@ -71,6 +71,7 @@ export default {
         this.$store.state.token = data.token;
         this.$store.state.userId = data.items.userId;
         this.$store.state.adminId = data.items.id;
+        this.$store.state.userInfo = data.items;
         window.sessionStorage.setItem("adminId", data.items.id);
         window.sessionStorage.setItem("userId", data.items.userId);
         window.sessionStorage.setItem("groupId", data.items.groupId);

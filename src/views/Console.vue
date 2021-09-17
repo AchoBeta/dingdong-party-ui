@@ -3,21 +3,36 @@
     <!-- 选择党委和党支部 -->
     <div>
       <el-card>
-        <div>
-          <!--
-          <div>
-            党委
-            <el-select v-model="" placeholder="无">
-              <el-option :label="" :value=""></el-option>
+        <div class="select-container">
+          <div class="select-item">
+            党委：
+            <el-select
+              :loading="loading"
+              placeholder="选择党委"
+              @change="getGroupOptions"
+              v-model="groupId"
+            >
+              <el-option
+                v-for="item in branchOptions"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
             </el-select>
           </div>
-          <div>
-            党支部
-            <el-select v-model="" placeholder="无">
-              <el-option :label="" :value=""></el-option>
-            </el-select>
-          </div>
-          -->
+          党支部：
+          <el-select
+            :loading="loading"
+            placeholder="选择党支部"
+            v-model="branchId"
+          >
+            <el-option
+              v-for="item in groupOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
         </div>
       </el-card>
     </div>
@@ -74,6 +89,12 @@ export default {
   name: "Console",
   data() {
     return {
+      branchId: "",
+      groupId: "",
+      authority: "",
+      loading: false,
+      branchOptions: [], //支部选项
+      groupOptions: [], //党组选项
       informationData: [
         { name: "入党申请人", value: 0 },
         { name: "入党积极分子", value: 0 },
@@ -89,14 +110,58 @@ export default {
         "预备党员",
         "正式党员",
       ],
+      pageSize: 5,
+      pageNo: 1,
     };
   },
   created() {
-    const that = this;
-    that.getInformation();
+    this.getBranchOptions();
+    this.getInformation();
   },
   mounted() {},
   methods: {
+    // 获取支部选项
+    getBranchOptions() {
+      this.$get({
+        url: "/base/branches",
+        params: {
+          page: this.pageNo,
+          size: this.pageSize,
+        },
+      })
+        .then((res) => {
+          this.branchOptions = res.data.list.items;
+        })
+        .catch((err) => {
+          this.$message({
+            message: "获取支部失败",
+            type: "error",
+            duration: 1500,
+          });
+        });
+    },
+    // 获取党组选项
+    getGroupOptions(branchId) {
+      this.$get({
+        url: "/base/branch/" + branchId + "/groups",
+        params: {
+          branchId: branchId,
+          page: this.pageNo,
+          size: this.pageSize,
+        },
+      })
+        .then((res) => {
+          this.groupOptions = res.data.list.items;
+        })
+        .catch((err) => {
+          this.$message({
+            message: "获取用户数据失败",
+            type: "error",
+            duration: 1500,
+          });
+        });
+    },
+    //获取党建数据
     getInformation() {
       const that = this;
       this.$get({
@@ -174,8 +239,15 @@ export default {
   },
 };
 </script>
-
 <style scoped>
+.select-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.select-item {
+  margin-right: 20px;
+}
 #content-area,
 #eChart-area {
   margin-top: 3vh;
