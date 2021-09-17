@@ -22,6 +22,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
+              
               <el-form-item label="阶段">
                 <el-select
                   placeholder="选择所在阶段"
@@ -65,7 +66,7 @@
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
-                    @click.native="searchFormData.major"
+                    @click.native="searchFormData.major=item.id"
                   >
                   </el-option>
                 </el-select>
@@ -81,6 +82,22 @@
                       ']'
                   "
                 ></el-input>
+              </el-form-item>
+              <el-form-item label="审核状态">
+                <el-select
+                  placeholder="选择审核状态"
+                  clearable
+                  v-model="value[7]"
+                >
+                  <el-option
+                    v-for="item in listStatas"
+                    :key="item.id"
+                    :label="item.label"
+                    :value="item.id"
+                    @click.native="searchFormData.status = item.id"
+                  >
+                  </el-option>
+                </el-select>
               </el-form-item>
             </div>
             <div style="margin-left: 29%">
@@ -443,7 +460,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-                @click.native="ruleForm.groupId = id"
+                @click.native="ruleForm.groupId = item.id"
               >
               </el-option>
             </el-select>
@@ -532,9 +549,19 @@ export default {
         lastInfo: {},
       },
       //选项框
-      value: ["", "", "", "", "", "", ""],
+      value: ["", "", "", "", "", "", "",""],
       list1: [],
       list2: [],
+      listStatas: [{
+          id: '0',
+          label: '待审核'
+        }, {
+          id: '2',
+          label: '未通过'
+        }, {
+          id: '1',
+          label: '已通过'
+        }],
       periodMaxNum: 0,
       listInstitute: [],
       listMajor: [],
