@@ -2,139 +2,6 @@ import axios from "axios";
 import store from "../store/index";
 import { Message } from "element-ui";
 import router from "../router/index";
-
-// export function request(config) {
-//   //1.创建axios实例
-//   const http = axios.create({
-//     baseURL: store.state.baseURL,
-//   });
-//   //2.axios请求拦截器
-//   http.interceptors.request.use((config) => {
-//     //携带token
-//     if (store.state.token) {
-//       //在vuex找token
-//       let token = store.state.token;
-//       config.headers = { token: token };
-//       return config;
-//     } else if (window.sessionStorage.getItem("token")) {
-//       //在sessionStorage找token
-//       let token = window.sessionStorage.getItem("token");
-//       config.headers = { token: token };
-//       return config;
-//     } else {
-//       //提示token找不到并跳转到登录页
-//       Message({
-//         message: "身份过期，请重新登录",
-//         type: "error",
-//         duration: 1000,
-//         onClose: () => {
-//           router.push("/login");
-//         },
-//       });
-//     }
-//   });
-
-//   //3.axios响应拦截
-//   http.interceptors.response.use(
-//     (res) => {
-//       return res.data;
-//     },
-//     (err) => {
-//       //判断token是否失效
-//       if (err.response.data.error_code == 20001) {
-//         //提示token失效并跳转到登录页
-//         Message({
-//           message: err.response.data.msg,
-//           type: "error",
-//           duration: 1000,
-//           onClose: () => {
-//             router.push("/login");
-//           },
-//         });
-//       }
-
-//       return Promise.reject(err.response.data);
-//     }
-//   );
-
-//   //返回promise
-//   return http(config);
-// }
-
-// export function loginRequest(config) {
-//   //1.创建axios实例
-//   const http = axios.create({
-//     // baseURL: 'https://www.dingdongtongxue.com/Party/party/v1/',
-//     baseURL: "https://api.dingdongtongxue.com",
-//     timeout: 5000,
-//   });
-
-//   //返回promise
-//   return http(config);
-// }
-
-// export function logoutRequest(config) {
-//   //1.创建axios实例
-//   const http = axios.create({
-//     // baseURL: 'https://www.dingdongtongxue.com/Party/party/v1/',
-//     baseURL: "https://api.dingdongtongxue.com",
-//     timeout: 5000,
-//   });
-
-//   //2.axios请求拦截器
-//   http.interceptors.request.use((config) => {
-//     //携带token
-//     if (store.state.token) {
-//       //在vuex找token
-//       let token = store.state.token;
-//       config.headers = { token: token };
-//       return config;
-//     } else if (window.sessionStorage.getItem("token")) {
-//       //在sessionStorage找token
-//       let token = window.sessionStorage.getItem("token");
-//       config.headers = { token: token };
-//       return config;
-//     } else {
-//       //提示token找不到并跳转到登录页
-//       Message({
-//         message: "身份过期，请重新登录",
-//         type: "error",
-//         duration: 1000,
-//         onClose: () => {
-//           router.push("/login");
-//         },
-//       });
-//     }
-//   });
-
-//   //3.axios响应拦截
-//   http.interceptors.response.use(
-//     (res) => {
-//       return res.data;
-//     },
-//     (err) => {
-//       //判断token是否失效
-//       if (err.response.data.error_code == 20001) {
-//         //提示token失效并跳转到登录页
-//         Message({
-//           message: err.response.data.msg,
-//           type: "error",
-//           duration: 1000,
-//           onClose: () => {
-//             router.push("/login");
-//           },
-//         });
-//       }
-//       return Promise.reject(err);
-//     }
-//   );
-
-//   //返回promise
-//   return http(config);
-// }
-
-// export function pChangeRequest(config) {}
-
 // 创建基本请求
 function createHttp(options) {
   const instance = axios.create({
@@ -162,6 +29,9 @@ function createHttp(options) {
       // console.log(res);
       if (res.data && [200].includes(res.data.code)) {
         return Promise.resolve(res.data);
+      }
+      if (res.data && [4001].includes(res.data.code)) {
+        router.push("/login");
       }
       if (res.data && [700, 708].includes(res.data.code)) {
         return Promise.reject();
@@ -205,126 +75,14 @@ const get = (options) => createHttp(Object.assign(options, { method: "GET" }));
 
 const put = (options) => createHttp(Object.assign(options, { method: "PUT" }));
 
+const del = (options) =>
+  createHttp(Object.assign(options, { method: "DELETE" }));
+
 export default {
   install(Vue) {
     Vue.prototype.$post = post;
     Vue.prototype.$get = get;
     Vue.prototype.$put = put;
+    Vue.prototype.$del = del;
   },
 };
-
-// export function userRequest(config) {
-//   //1.创建axios实例
-//   const http = axios.create({
-//     baseURL: "https://api.dingdongtongxue.com",
-//   });
-//   //2.axios请求拦截器
-//   http.interceptors.request.use((config) => {
-//     //携带token
-//     if (store.state.token) {
-//       //在vuex找token
-//       let token = store.state.token;
-//       config.headers = { token: token };
-//       return config;
-//     } else if (window.sessionStorage.getItem("token")) {
-//       //在sessionStorage找token
-//       let token = window.sessionStorage.getItem("token");
-//       config.headers = { token: token };
-//       return config;
-//     } else {
-//       //提示token找不到并跳转到登录页
-//       Message({
-//         message: "身份过期，请重新登录",
-//         type: "error",
-//         duration: 1000,
-//         onClose: () => {
-//           router.push("/login");
-//         },
-//       });
-//     }
-//   });
-
-//   //3.axios响应拦截
-//   http.interceptors.response.use(
-//     (res) => {
-//       return res.data;
-//     },
-//     (err) => {
-//       //判断token是否失效
-//       if (err.response.data.error_code == 20001) {
-//         //提示token失效并跳转到登录页
-//         Message({
-//           message: err.response.data.msg,
-//           type: "error",
-//           duration: 1000,
-//           onClose: () => {
-//             router.push("/login");
-//           },
-//         });
-//       }
-
-//       return Promise.reject(err.response.data);
-//     }
-//   );
-
-//   //返回promise
-//   return http(config);
-// }
-
-// export function userRequest2(config) {
-//   //1.创建axios实例
-//   const http = axios.create({
-//     baseURL: "https://api.dingdongtongxue.com",
-//   });
-//   //2.axios请求拦截器
-//   http.interceptors.request.use((config) => {
-//     //携带token
-//     if (store.state.token) {
-//       //在vuex找token
-//       let token = store.state.token;
-//       config.headers = { token: token, "Content-Type": "application/json" };
-//       return config;
-//     } else if (window.sessionStorage.getItem("token")) {
-//       //在sessionStorage找token
-//       let token = window.sessionStorage.getItem("token");
-//       config.headers = { token: token };
-//       return config;
-//     } else {
-//       //提示token找不到并跳转到登录页
-//       Message({
-//         message: "身份过期，请重新登录",
-//         type: "error",
-//         duration: 1000,
-//         onClose: () => {
-//           router.push("/login");
-//         },
-//       });
-//     }
-//   });
-
-//   //3.axios响应拦截
-//   http.interceptors.response.use(
-//     (res) => {
-//       return res.data;
-//     },
-//     (err) => {
-//       //判断token是否失效
-//       if (err.response.data.error_code == 20001) {
-//         //提示token失效并跳转到登录页
-//         Message({
-//           message: err.response.data.msg,
-//           type: "error",
-//           duration: 1000,
-//           onClose: () => {
-//             router.push("/login");
-//           },
-//         });
-//       }
-
-//       return Promise.reject(err.response.data);
-//     }
-//   );
-
-//   //返回promise
-//   return http(config);
-// }

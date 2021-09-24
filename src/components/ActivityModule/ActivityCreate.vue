@@ -19,8 +19,8 @@
             <el-descriptions-item label="所在党委">{{
               branchName
             }}</el-descriptions-item>
-            <el-descriptions-item label="所在党支部">{{
-              groupsList[formLabelAlign.groupId]
+            <el-descriptions-item label="所在党支部" v-if="groupId">{{
+              groupList[groupId].name
             }}</el-descriptions-item>
           </el-descriptions>
           <el-form
@@ -29,16 +29,13 @@
             :model="formLabelAlign"
             class="form-contain"
           >
-            <el-form-item
-              label="选择党小组"
-              v-if="formLabelAlign.groupId == null"
-            >
+            <el-form-item label="党支部" required>
               <el-select
                 v-model="formLabelAlign.groupId"
-                placeholder="请选择授权党小组"
+                placeholder="选择党支部"
               >
                 <el-option
-                  v-for="item in groupsList"
+                  v-for="item in groupList"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id"
@@ -196,7 +193,26 @@ export default {
       //创建表单形式
       labelPosition: "top",
       //创建表单填写
-      formLabelAlign: {},
+      formLabelAlign: {
+        address: "",
+        announcement: "",
+        attention: "",
+        branchId: "",
+        content: "",
+        directorId: "",
+        directorName: "",
+        email: "",
+        enclosure: "",
+        endTime: "",
+        groupId: "",
+        id: "",
+        limitNum: 0,
+        name: "",
+        num: 0,
+        startTime: "",
+        status: 0,
+        summary: "",
+      },
       //方便使用的
       branchId: window.sessionStorage.getItem("branchId"),
       groupId: window.sessionStorage.getItem("groupId"),
@@ -205,7 +221,7 @@ export default {
       // 党委列表
       branchName: "",
       //党小组
-      groupsList: [],
+      groupList: [],
       groupVal: "",
 
       //储存一下活动Id再说
@@ -243,10 +259,14 @@ export default {
 
     this.formLabelAlign.directorName = window.sessionStorage.getItem("name"); //名字
     this.formLabelAlign.directorId = window.sessionStorage.getItem("adminId"); //管理员ID
-    this.formLabelAlign.groupId = window.sessionStorage.getItem("groupId");
+    this.formLabelAlign.groupId =
+      window.sessionStorage.getItem("groupId") || ""; //groudId
     this.formLabelAlign.branchId = window.sessionStorage.getItem("branchId"); //branchId
   },
   methods: {
+    selectGroup(e) {
+      this.formLabelAlign.groupId = e;
+    },
     //提交草稿
     saveAsDraft() {
       this.$post({
@@ -330,7 +350,8 @@ export default {
         },
       })
         .then((res) => {
-          this.groupsList = res.data.list.items;
+          console.log(res.data.list.items);
+          this.groupList = res.data.list.items;
         })
         .catch((err) => {
           this.$message({
